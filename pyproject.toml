@@ -10,6 +10,12 @@ python = "3.11.9"
 autorag = ">=0.2.8"
 click = "^8.1.7"
 python-dotenv = "^1.0.1"
+llama-index-llms-upstage = "^0.1.4"
+llama-index-embeddings-upstage = "^0.1.2"
+unstructured = "^0.14.10"
+langchain = "^0.2.7"
+langchain-community = "^0.2.7"
+langchain-text-splitters = "^0.2.2"
 
 
 [build-system]
