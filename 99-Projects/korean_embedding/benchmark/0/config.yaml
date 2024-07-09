@@ -1,0 +1,109 @@
+node_lines:
+  - node_line_name: retrieve_node_line
+    nodes:
+      - node_type: retrieval
+        top_k: 3
+        strategy:
+          metrics:
+            - retrieval_f1
+            - retrieval_ndcg
+            - retrieval_map
+            - retrieval_recall
+            - retrieval_precision
+        modules:
+          - module_type: bm25
+            bm25_tokenizer: ko_kiwi
+          - module_type: vectordb
+            embedding_model: [solar-embedding-1-large, bge-m3]
+            embedding_batch: 100
+          - module_type: hybrid_rrf
+            target_modules: ('bm25', 'vectordb')
+            rrf_k: [3, 5, 10]
+          - module_type: hybrid_cc
+            target_modules: ('bm25', 'vectordb')
+            weights:
+              - (0.5, 0.5)
+              - (0.3, 0.7)
+              - (0.7, 0.3)
+          - module_type: hybrid_rsf
+            target_modules: ('bm25', 'vectordb')
+            weights:
+              - (0.5, 0.5)
+              - (0.3, 0.7)
+              - (0.7, 0.3)
+          - module_type: hybrid_dbsf
+            target_modules: ('bm25', 'vectordb')
+            weights:
+              - (0.5, 0.5)
+              - (0.3, 0.7)
+              - (0.7, 0.3)
+      - node_type: passage_reranker
+        modules:
+          - module_type: koreranker
+          - module_type: pass_reranker
+          - module_type: tart
+          - module_type: monot5
+          - module_type: upr
+        strategy:
+          metrics: [retrieval_f1, retrieval_recall, retrieval_precision]
+        top_k: 3
+  - node_line_name: post_retrieve_node_line
+    nodes:
+      - node_type: prompt_maker
+        strategy:
+          metrics:
+            - metric_name: rouge
+            - metric_name: sem_score
+              embedding_model: openai
+        modules:
+          - module_type: fstring
+            prompt:
+              - |
+                단락을 읽고 질문에 답하세요. \n 질문 : {query} \n 단락: {retrieved_contents} \n 답변 :
+              - |
+                단락을 읽고 질문에 답하세요. 답할때 단계별로 천천히 고심하여 답변하세요. 반드시 단락 내용을 기반으로 말하고 거짓을 말하지 마세요. \n 질문: {query} \n 단락: {retrieved_contents} \n 답변 :
+              - |
+                You are tasked with reading a paragraph and answering a question based on its content. Your goal is to provide an accurate and thoughtful response while following specific guidelines.
+
+                First, carefully read the following paragraph:
+
+                <paragraph>
+                {retrieved_contents}
+                </paragraph>
+
+                Now, consider this question:
+
+                <question>
+                {query}
+                </question>
+
+                To answer the question, please follow these instructions:
+
+                1. Think through your answer step-by-step. Consider different aspects of the question and how they relate to the information provided in the paragraph.
+
+                2. Base your answer entirely on the content of the paragraph. Do not include any information that is not explicitly stated or directly implied by the text.
+
+                3. If the paragraph does not contain enough information to fully answer the question, state this clearly and explain what information is missing.
+
+                4. Do not make up or include any false information in your answer.
+
+                5. Take your time to formulate a well-thought-out response. There's no rush, so consider all relevant details from the paragraph before finalizing your answer.
+
+                Please provide your answer within <answer> tags. Begin your response with "Based on the paragraph, " to emphasize that your answer is derived from the given text.
+      - node_type: generator
+        strategy:
+          metrics: # bert_score 및 g_eval 사용 역시 추천합니다. 빠른 실행을 위해 여기서는 제외하고 하겠습니다.
+            - metric_name: rouge
+            - metric_name: sem_score
+              embedding_model: openai
+        modules:
+          - module_type: llama_index_llm
+            llm: openai
+            model: gpt-3.5-turbo
+            temperature: [0.1, 1.0]
+            batch: 1
+            max_retries: 20
+          - module_type: llama_index_llm
+            llm: upstage
+            temperature: [0.1, 0.5, 1.0]
+            batch: 8

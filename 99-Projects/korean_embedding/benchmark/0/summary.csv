@@ -1,0 +1,5 @@
+node_line_name,node_type,best_module_filename,best_module_name,best_module_params,best_execution_time
+retrieve_node_line,retrieval,7.parquet,hybrid_cc,"{'top_k': 3, 'weights': (0.7, 0.3), 'target_modules': ('bm25', 'vectordb'), 'target_module_params': ({'top_k': 3, 'bm25_tokenizer': 'ko_kiwi'}, {'top_k': 3, 'embedding_model': 'bge-m3', 'embedding_batch': 100})}",1.2724572867155075
+retrieve_node_line,passage_reranker,0.parquet,koreranker,{'top_k': 3},1.930480659008026
+post_retrieve_node_line,prompt_maker,2.parquet,fstring,{'prompt': '단락을 읽고 질문에 답하세요. \\n 질문 : {query} \\n 단락: {retrieved_contents} \\n 답변 :\n'},1.8708407878875732e-05
+post_retrieve_node_line,generator,0.parquet,llama_index_llm,"{'llm': 'openai', 'model': 'gpt-3.5-turbo', 'temperature': 0.1, 'batch': 1, 'max_retries': 20}",1.6700753718614578

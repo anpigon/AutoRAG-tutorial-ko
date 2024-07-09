@@ -1,0 +1,6 @@
+filename,module_name,module_params,execution_time,average_output_token,rouge,sem_score,is_best
+0.parquet,llama_index_llm,"{'llm': 'openai', 'model': 'gpt-3.5-turbo', 'temperature': 0.1, 'batch': 1, 'max_retries': 20}",1.6700753718614578,177.34375,0.6117439851814851,0.9422658675722801,True
+1.parquet,llama_index_llm,"{'llm': 'openai', 'model': 'gpt-3.5-turbo', 'temperature': 1.0, 'batch': 1, 'max_retries': 20}",1.8390262871980667,194.75,0.6068549430641822,0.9461689414282659,False
+2.parquet,llama_index_llm,"{'llm': 'upstage', 'temperature': 0.1, 'batch': 8}",0.2788265347480774,166.3125,0.5147478070175439,0.9210169242998671,False
+3.parquet,llama_index_llm,"{'llm': 'upstage', 'temperature': 0.5, 'batch': 8}",0.30512988567352295,138.78125,0.47291666666666665,0.9068185535656114,False
+4.parquet,llama_index_llm,"{'llm': 'upstage', 'temperature': 1.0, 'batch': 8}",0.2897418811917305,110.78125,0.3062597049689441,0.877087328368565,False

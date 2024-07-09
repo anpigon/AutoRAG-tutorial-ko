@@ -16,6 +16,7 @@ unstructured = "^0.14.10"
 langchain = "^0.2.7"
 langchain-community = "^0.2.7"
 langchain-text-splitters = "^0.2.2"
+streamlit = "^1.36.0"
 
 
 [build-system]

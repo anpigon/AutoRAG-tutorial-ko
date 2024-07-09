@@ -1,0 +1,6 @@
+filename,module_name,module_params,execution_time,passage_reranker_retrieval_f1,passage_reranker_retrieval_recall,passage_reranker_retrieval_precision,is_best
+0.parquet,koreranker,{'top_k': 3},1.9304806590080261,0.46875,0.9375,0.3125,True
+1.parquet,pass_reranker,{'top_k': 3},9.527802467346191e-05,0.46875,0.9375,0.3125,False
+2.parquet,tart,{'top_k': 3},2.0002464056015015,0.46875,0.9375,0.3125,False
+3.parquet,monot5,{'top_k': 3},17.02204968780279,0.46875,0.9375,0.3125,False
+4.parquet,upr,{'top_k': 3},3.0658012107014656,0.46875,0.9375,0.3125,False
