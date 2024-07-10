@@ -4,6 +4,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 from llama_index.llms.openai import OpenAI
+from llama_index.llms.ollama import Ollama
 from llama_index.core import SimpleDirectoryReader
 from llama_index.core.node_parser import TokenTextSplitter
 
@@ -67,14 +68,15 @@ Please generate the specified number of question-answer pairs, numbering them se
 
 corpus_df = pd.read_parquet(corpus_path, engine="pyarrow")
 
-llm = OpenAI(model="gpt-4o", temperature=0.5)
+# llm = OpenAI(model="gpt-4o", temperature=0.5)
+llm = Ollama(model="gemma2", temperature=1.0)
 
 if os.path.isfile(qa_path):
     os.remove(qa_path)
 
 qa_df = make_single_content_qa(
     corpus_df,
-    content_size=50,
+    content_size=49,
     qa_creation_func=generate_qa_llama_index,
     llm=llm,
     prompt=prompt,
