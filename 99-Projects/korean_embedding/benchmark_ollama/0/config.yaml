@@ -1,0 +1,50 @@
+node_lines:
+  - node_line_name: retrieve_node_line
+    nodes:
+      - node_type: retrieval
+        top_k: 3
+        strategy:
+          metrics: [retrieval_f1, retrieval_recall, retrieval_precision]
+        modules:
+          - module_type: bm25
+            bm25_tokenizer: ko_kiwi
+          - module_type: vectordb
+            embedding_model: [ solar-embedding-1-large, bge-m3 ]
+            embedding_batch: 100
+          - module_type: hybrid_cc
+            target_modules: ('bm25', 'vectordb')
+            weights: 
+              - (0.7, 0.3)
+      - node_type: passage_reranker
+        modules:
+          - module_type: koreranker
+          - module_type: pass_reranker
+        strategy:
+          metrics: [retrieval_f1, retrieval_recall, retrieval_precision]
+        top_k: 3
+  - node_line_name: post_retrieve_node_line
+    nodes:
+      - node_type: prompt_maker
+        strategy:
+          metrics:
+            - metric_name: rouge
+        modules:
+          - module_type: fstring
+            prompt:
+              - |
+                단락을 읽고 질문에 답하세요. \n 질문 : {query} \n 단락: {retrieved_contents} \n 답변 :
+      - node_type: generator
+        strategy:
+          metrics: 
+            - metric_name: rouge
+            - metric_name: sem_score
+              embedding_model: openai
+        modules:
+          - module_type: llama_index_llm
+            llm: ollama
+            model: [ gamma2, llama3, qwen2, mistral, EEVE-Korean-10.8B ]
+            base_url: http://localhost:11434
+            request_timeout: 300
+            temperature: 0.1
+            max_retries: 20
+            batch: 1

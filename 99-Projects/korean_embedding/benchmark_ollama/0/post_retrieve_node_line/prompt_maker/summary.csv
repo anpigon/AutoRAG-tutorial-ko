@@ -1,0 +1,2 @@
+filename,module_name,module_params,execution_time,average_prompt_token,is_best
+0.parquet,fstring,{'prompt': '단락을 읽고 질문에 답하세요. \\n 질문 : {query} \\n 단락: {retrieved_contents} \\n 답변 :\n'},3.1620264053344727e-05,4124.78125,True
