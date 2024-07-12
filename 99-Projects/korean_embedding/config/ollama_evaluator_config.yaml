@@ -42,7 +42,7 @@ node_lines:
         modules:
           - module_type: llama_index_llm
             llm: ollama
-            model: [ gamma2, llama3, qwen2, mistral, EEVE-Korean-10.8B ]
+            model: [ gemma2, llama3, qwen2, mistral, EEVE-Korean-10.8B ]
             base_url: http://localhost:11434
             request_timeout: 300
             temperature: 0.1
