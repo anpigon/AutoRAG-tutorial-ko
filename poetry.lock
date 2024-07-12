@@ -3114,6 +3114,23 @@ files = [
 langchain-core = ">=0.2.10,<0.3.0"
 
 [[package]]
+name = "langchain-upstage"
+version = "0.1.7"
+description = "An integration package connecting Upstage and LangChain"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "langchain_upstage-0.1.7-py3-none-any.whl", hash = "sha256:9a7f2c8622c51bb825e2d7731ab373216bde44a9ee0ff51ab3c0d379859ce1ec"},
+    {file = "langchain_upstage-0.1.7.tar.gz", hash = "sha256:521c861596ff9de83efa88f3181e3d60218a74754d230c995dcdad888519d2fc"},
+]
+
+[package.dependencies]
+langchain-core = ">=0.2.2,<0.3"
+langchain-openai = ">=0.1.3,<0.2.0"
+pypdf = ">=4.2.0,<5.0.0"
+requests = ">=2.31.0,<3.0.0"
+
+[[package]]
 name = "langdetect"
 version = "1.0.9"
 description = "Language detection library ported from Google's language-detection."
@@ -8498,4 +8515,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.9"
-content-hash = "274bb90a37115111713bb30677ad32be647a9ba7572b72443c23ce780b12f220"
+content-hash = "a0e8f27c4c0d7ec34d58518e0b5d1e69796bcc0ecfd907bd4344e7c34ce8ef83"

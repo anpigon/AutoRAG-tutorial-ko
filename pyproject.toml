@@ -22,6 +22,7 @@ ragas = "^0.1.10"
 langchain-google-genai = "^1.0.7"
 langchain-huggingface = "^0.0.3"
 langchain-chroma = "^0.1.2"
+langchain-upstage = "^0.1.7"
 
 
 [build-system]
