@@ -1,0 +1,61 @@
+node_lines:
+- node_line_name: retrieve_node_line
+  nodes:
+  - modules:
+    - module_type: hybrid_cc
+      target_module_params:
+        - bm25_tokenizer: ko_kiwi
+          top_k: 3
+        - embedding_batch: 100
+          embedding_model: bge-m3
+          top_k: 3
+      target_modules: 
+        - bm25
+        - vectordb
+      top_k: 3
+      weights: 
+        - 0.7
+        - 0.3
+    node_type: retrieval
+    strategy:
+      metrics:
+      - retrieval_f1
+      - retrieval_ndcg
+      - retrieval_map
+      - retrieval_recall
+      - retrieval_precision
+  - modules:
+    - module_type: koreranker
+      top_k: 3
+    node_type: passage_reranker
+    strategy:
+      metrics:
+      - retrieval_f1
+      - retrieval_recall
+      - retrieval_precision
+- node_line_name: post_retrieve_node_line
+  nodes:
+  - modules:
+    - module_type: fstring
+      prompt: "\uB2E8\uB77D\uC744 \uC77D\uACE0 \uC9C8\uBB38\uC5D0 \uB2F5\uD558\uC138\
+        \uC694. \\n \uC9C8\uBB38 : {query} \\n \uB2E8\uB77D: {retrieved_contents}\
+        \ \\n \uB2F5\uBCC0 :\n"
+    node_type: prompt_maker
+    strategy:
+      metrics:
+      - metric_name: rouge
+      - embedding_model: openai
+        metric_name: sem_score
+  - modules:
+    - batch: 1
+      llm: openai
+      max_retries: 20
+      model: gpt-3.5-turbo
+      module_type: llama_index_llm
+      temperature: 0.1
+    node_type: generator
+    strategy:
+      metrics:
+      - metric_name: rouge
+      - embedding_model: openai
+        metric_name: sem_score
