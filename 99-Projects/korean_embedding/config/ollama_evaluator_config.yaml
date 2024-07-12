@@ -6,13 +6,19 @@ node_lines:
         strategy:
           metrics: [retrieval_f1, retrieval_recall, retrieval_precision]
         modules:
+          - module_type: bm25
+            bm25_tokenizer: ko_kiwi
+          - module_type: vectordb
+            embedding_model: [ solar-embedding-1-large, bge-m3 ]
+            embedding_batch: 100
           - module_type: hybrid_cc
             target_modules: ('bm25', 'vectordb')
-            weights:
+            weights: 
               - (0.7, 0.3)
       - node_type: passage_reranker
         modules:
           - module_type: koreranker
+          - module_type: pass_reranker
         strategy:
           metrics: [retrieval_f1, retrieval_recall, retrieval_precision]
         top_k: 3
@@ -37,6 +43,8 @@ node_lines:
           - module_type: llama_index_llm
             llm: ollama
             model: [ gamma2, llama3, qwen2, mistral, EEVE-Korean-10.8B ]
+            base_url: http://localhost:11434
+            request_timeout: 300
             temperature: 0.1
             max_retries: 20
             batch: 1
