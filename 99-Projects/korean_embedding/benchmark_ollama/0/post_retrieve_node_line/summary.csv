@@ -1,0 +1,3 @@
+node_type,best_module_filename,best_module_name,best_module_params,best_execution_time
+prompt_maker,0.parquet,fstring,{'prompt': '단락을 읽고 질문에 답하세요. \\n 질문 : {query} \\n 단락: {retrieved_contents} \\n 답변 :\n'},3.1620264053344727e-05
+generator,3.parquet,llama_index_llm,"{'llm': 'ollama', 'model': 'gemma2', 'base_url': 'http://localhost:11434', 'request_timeout': 300, 'temperature': 0.1, 'max_retries': 20, 'batch': 1}",11.50286565721035

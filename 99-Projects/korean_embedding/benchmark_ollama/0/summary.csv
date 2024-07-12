@@ -1,0 +1,3 @@
+node_line_name,node_type,best_module_filename,best_module_name,best_module_params,best_execution_time
+retrieve_node_line,retrieval,2.parquet,vectordb,"{'top_k': 3, 'embedding_model': 'bge-m3', 'embedding_batch': 100}",0.1422608792781829
+retrieve_node_line,passage_reranker,0.parquet,koreranker,{'top_k': 3},1.8501910269260409
